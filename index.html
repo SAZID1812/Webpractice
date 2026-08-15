@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>For You ✨</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: #0f172a;
+            color: #f8fafc;
+            overflow: hidden; 
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+        }
+
+        .page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px 20px;
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+            transform: translateY(20px);
+        }
+
+        .page.active {
+            opacity: 1;
+            pointer-events: all;
+            transform: translateY(0);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #38bdf8, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p {
+            font-size: 1.15rem;
+            line-height: 1.6;
+            color: #cbd5e1;
+            margin-bottom: 20px;
+            max-width: 400px;
+        }
+
+        .signature {
+            font-size: 1.2rem;
+            font-style: italic;
+            color: #818cf8;
+            margin-top: 30px;
+            font-weight: bold;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            color: white;
+            border: none;
+            padding: 16px 30px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+            transition: transform 0.2s;
+            z-index: 10;
+            margin-top: 10px;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Standard Outline Button */
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #cbd5e1;
+            color: #cbd5e1;
+            box-shadow: none;
+            margin-top: 20px;
+        }
+
+        /* Special Red Button (For the Give Up button) */
+        .btn-red {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.5);
+            margin-top: 20px;
+        }
+
+        /* Profile Photos */
+        .profile-img {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #818cf8;
+            box-shadow: 0 0 25px rgba(129, 140, 248, 0.5);
+            margin-bottom: 25px;
+        }
+        
+        .memory-img {
+            width: 170px;
+            height: 170px;
+            border-radius: 15px;
+            object-fit: cover;
+            border: 2px solid #c084fc;
+            box-shadow: 0 0 20px rgba(192, 132, 252, 0.3);
+            margin-bottom: 25px;
+        }
+
+        /* Background Emojis */
+        .emoji-bg {
+            position: absolute;
+            font-size: 2rem;
+            animation: floatup 4s infinite linear;
+            opacity: 0.5;
+            z-index: 0;
+        }
+
+        @keyframes floatup {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
+        }
+
+        #trickBtn {
+            position: relative; 
+            transition: top 0.2s ease, left 0.2s ease;
+            margin-bottom: 20px;
+        }
+
+        .fade-text {
+            animation: slowFade 3s ease-in-out;
+        }
+
+        @keyframes slowFade {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PAGE 1: Intro -->
+    <div class="page active" id="page1">
+        <!-- FIRST PICTURE: photo1.jpg -->
+        <img src="photo1.jpg" alt="Sadia" class="profile-img" onerror="this.style.display='none'">
+        <h1>Hey picchi ✨</h1>
+        <p>I made a little something for you. Tap below to see it 🙈.</p>
+        <button class="btn" onclick="nextPage(2)">Open App 💌 - Click here</button>
+    </div>
+
+    <!-- PAGE 2: The Moon & Trick Button -->
+    <div class="page" id="page2">
+        <div id="emoji-container"></div>
+        <!-- FIFTH PICTURE: photo5.jpg -->
+        <img src="photo5.jpg" alt="Sadia" class="profile-img" style="z-index: 10;" onerror="this.style.display='none'">
+        
+        <h1 style="z-index: 10; font-size: 1.8rem;">That's how my eyes look at you always...</h1>
+        <p style="z-index: 10;">Like a moon, you are the prettiest girl in the world 🌙✨</p>
+        
+        <button class="btn" id="trickBtn">Claim Gift 🎁 - Click here</button>
+        
+        <!-- Red Give Up Button -->
+        <button class="btn btn-red" id="giveUpBtn" style="display: none; z-index: 10;" onclick="nextPage(3)">Okay, I give up 😂 - Click here</button>
+    </div>
+
+    <!-- PAGE 3: The Trust / Feelings -->
+    <div class="page" id="page3">
+        <!-- SECOND PICTURE: photo2.jpg -->
+        <img src="photo2.jpg" alt="Sadia" class="memory-img" onerror="this.style.display='none'">
+        <h1>Just wanted to say... 🥺</h1>
+        
+        <p>I know you've always been scared to fully trust me. And honestly, I completely understand why.</p>
+        
+        <p>We've only been familiar with each other for the last 3 months, and we haven't really spent time together. But it didn't take much for me to realize that you genuinely have the purest soul. Even from a distance, my care for you has always been real, whether you trust it or not.</p>
+        
+        <button class="btn" onclick="nextPage(4)">Next 🥀 - Click here</button>
+    </div>
+
+    <!-- PAGE 4: The Smile Page -->
+    <div class="page" id="page4">
+        <!-- THIRD PICTURE (Her smiling face): photo3.jpg -->
+        <img src="photo3.jpg" alt="Sadia Smiling" class="profile-img" onerror="this.style.display='none'">
+        <h1>The real reason... ✨</h1>
+        
+        <p>Remember when you asked me why I love you? I never really gave you the full answer.</p>
+        
+        <p>Now that this might be my last time talking to you, it's time to tell you the truth. It's your smile. It is the most precious thing in my eyes. That smiling face is the biggest reason I fell for you.</p>
+        
+        <button class="btn" onclick="nextPage(5)">Next ❤️ - Click here</button>
+    </div>
+
+    <!-- PAGE 5: The Question -->
+    <div class="page" id="page5">
+        <h1>Will you marry me? 💍🫣</h1>
+        <br><br>
+        <!-- ONLY ONE OPTION (Already red, added click here) -->
+        <button class="btn btn-red" onclick="nextPage(6)">No 🚫 - Click here</button>
+    </div>
+
+    <!-- PAGE 6: The Punchline -->
+    <div class="page" id="page6">
+        <h1>I knew it! 😂💔</h1>
+        <p>I know your answer was "No", that's exactly why I didn't even put a "Yes" option! 🤧</p>
+        <p>Jokes apart... Have the most amazing birthday, Sadia. Keep that beautiful smile on your face forever.</p>
+        <button class="btn btn-outline" onclick="nextPage(7)">One last thing... ⏳ - Click here</button>
+    </div>
+
+    <!-- PAGE 7: The Final Goodbye -->
+    <div class="page" id="page7">
+        <!-- FOURTH PICTURE: photo4.jpg -->
+        <img src="photo4.jpg" alt="Sadia" class="memory-img fade-text" onerror="this.style.display='none'">
+        <h1 class="fade-text">Goodbye 🥀</h1>
+        <div class="fade-text">
+            <p>I am stepping out of your life now. This is my final sign-off.</p>
+            <p>Please take care of yourself, picchi. I will always remember you and that smile.</p>
+        </div>
+        <div class="signature fade-text">- Sazid 🚶‍♂️</div>
+    </div>
+
+    <!-- Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        // Page Navigation Logic
+        function nextPage(pageNum) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            const targetPage = document.getElementById('page' + pageNum);
+            targetPage.classList.add('active');
+
+            if(pageNum === 2) {
+                startEmojis();
+                setTimeout(() => {
+                    document.getElementById('giveUpBtn').style.display = 'block';
+                }, 5000); 
+            }
+            if(pageNum === 6) {
+                fireConfetti();
+            }
+        }
+
+        // The Jumping Button Logic
+        const trickBtn = document.getElementById('trickBtn');
+        
+        function moveButton() {
+            trickBtn.style.position = 'absolute';
+            const maxX = window.innerWidth - trickBtn.offsetWidth - 20;
+            const maxY = window.innerHeight - trickBtn.offsetHeight - 20;
+            
+            const randomX = Math.max(20, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(20, Math.floor(Math.random() * maxY));
+            
+            trickBtn.style.left = randomX + 'px';
+            trickBtn.style.top = randomY + 'px';
+        }
+
+        trickBtn.addEventListener('mouseover', moveButton);
+        trickBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault(); 
+            moveButton();
+        });
+
+        // Background Emojis
+        function startEmojis() {
+            const container = document.getElementById('emoji-container');
+            const emojis = ['🎈', '🎉', '🎂', '✨', '🎁', '💖', '🥳'];
+            
+            setInterval(() => {
+                const emoji = document.createElement('div');
+                emoji.classList.add('emoji-bg');
+                emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+                emoji.style.left = Math.random() * 100 + 'vw';
+                emoji.style.animationDuration = (Math.random() * 2 + 3) + 's'; 
+                container.appendChild(emoji);
+                
+                setTimeout(() => {
+                    emoji.remove();
+                }, 5000);
+            }, 300);
+        }
+
+        // Confetti
+        function fireConfetti() {
+            var duration = 3000;
+            var end = Date.now() + duration;
+
+            (function frame() {
+                confetti({
+                    particleCount: 5,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#38bdf8', '#818cf8', '#c084fc']
+                });
+                confetti({
+                    particleCount: 5,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#38bdf8', '#818cf8', '#c084fc']
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+        }
+    </script>
+</body>
+</html>
